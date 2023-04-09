@@ -44,9 +44,13 @@ $ docker run --cap-add=NET_ADMIN -d \
 ```
 
 ### Podman volume create
+```
 podman volume create trans_ovpn_data
 podman volume create trans_ovpn_config
+```
+
 ### Podman run
+```
 podman run --cap-add=NET_ADMIN,mknod,NET_RAW -d \
               -v trans_ovpn_data:/data \
               -v trans_ovpn_config:/config \
@@ -60,6 +64,7 @@ podman run --cap-add=NET_ADMIN,mknod,NET_RAW -d \
               -p 9091:9091 \
               --name transmission-ovpn \
               darendarrow/transmission-openvpn
+```
 
 ### Docker Compose
 ```
