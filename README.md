@@ -43,6 +43,24 @@ $ docker run --cap-add=NET_ADMIN -d \
               haugene/transmission-openvpn
 ```
 
+### Podman volume create
+podman volume create trans_ovpn_data
+podman volume create trans_ovpn_config
+### Podman run
+podman run --cap-add=NET_ADMIN,mknod,NET_RAW -d \
+              -v trans_ovpn_data:/data \
+              -v trans_ovpn_config:/config \
+              -e OPENVPN_PROVIDER=VYPRVPN \
+              -e OPENVPN_CONFIG="USA - New York-256" \
+              -e OPENVPN_USERNAME="darrow@gmail.com" \
+              -e OPENVPN_PASSWORD=REDACTED \
+              -e LOCAL_NETWORK=192.168.0.0/16 \
+              --log-driver json-file \
+              --log-opt max-size=10m \
+              -p 9091:9091 \
+              --name transmission-ovpn \
+              darendarrow/transmission-openvpn
+
 ### Docker Compose
 ```
 version: '3.3'
@@ -50,6 +68,8 @@ services:
     transmission-openvpn:
         cap_add:
             - NET_ADMIN
+            - NET_RAW
+            - mknod
         volumes:
             - '/your/storage/path/:/data'
             - '/your/config/path/:/config'
